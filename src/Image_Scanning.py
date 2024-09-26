@@ -1,17 +1,18 @@
 import sys
 import os
 import clr
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI (widefield) 2022/photron_cam_Oct")
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI_2021")
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI_2021/laser_manipulator-test_June_2022/Newfocus")
+from pathlib import Path
 
-#C:\Users\kuno\OneDrive - nd.edu\Documents\Soft_related\_Python Scripts\IR-PHI (widefield) 2022\wIR-PHI_base_on _laser_manipulator-test_June_2023\Madpiezo
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI (widefield) 2022/wIR-PHI_base_on _laser_manipulator-test_June_2023/Madpiezo")
+from CMOS_Functions import PhotronCamera
+import Firefly_SW as Firefly_SW         # Shoert Wavelngth Firefly laser controll class. Laser IP - 192.168.1.229
+import Firefly_LW as Firefly_LW         # Long   Wavelngth Firefly laser controll class. Laser IP - 192.168.1.231
 
-clr.AddReference('C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI_2021/laser_manipulator-test_June_2022/Newfocus/Newport.CONEXCC.CommandInterface.dll')
-from photron_camera import PhotronCamera
-import Firefly_LW #192.168.1.231, , separate py file
-from ConexCC import ConexCC
+# Import custom classes to controll Newfocus Conex-CC close loop controller used for mirror angle correction
+import clr
+clr.AddReference(str(Path(__file__).resolve().parent / "Newfocus" / "Newport.CONEXCC.CommandInterface.dll"))
+import CommandInterfaceConexCC
+from Newfocus.ConexCC import ConexCC
+
 from matplotlib.colors import ListedColormap
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -354,7 +355,10 @@ class Worker(QThread):
         # Format file name prefix with current time                                                                                                        
         f_name_prefix = f'[{cur_time.year}-{cur_time.month}-{cur_time.day}@{cur_time.hour:02d}-{cur_time.minute:02d}][{int(self.wlInput.text())}_cm-1]'
         f_name_prefix_2 = f'[x-{self.positions_arr[0, 1]}-{self.positions_arr[-1, 1]}-8][y-{self.positions_arr[0, 0]}-{self.positions_arr[-1, 0]}-8]'
-        dir_name = f"C:\\Users\\kuno\\OneDrive - nd.edu\\Documents\\Measurements\\wIR-PHI_large_area_scan\\{f_name_prefix}{f_name_prefix_2}_{self.sampleNameInput.text()}" # Define directory name
+
+        repo_path = str(Path(__file__).resolve().parent.parent.parent)
+        dir_name = f"{repo_path}\\Measurements\\wIR-PHI_large_area_scan\\{f_name_prefix}{f_name_prefix_2}_{self.sampleNameInput.text()}" # Define directory name
+        
         if os.path.exists(dir_name) and os.listdir(dir_name):   # Check if folder already exists and is not empty
             dir_name = dir_name + "_1"                          # Change folder name if folder is not empty
         os.makedirs(dir_name, exist_ok=True)                    # Create directory
