@@ -67,7 +67,7 @@ This software has been tested with **Python 3.10**.
 
 ---
 
-## New Feature: Experiments
+## Experimental Feature
 
 This section introduces a new experimental feature for the wIR-PHI system: **scanning widefield imaging**.
 
