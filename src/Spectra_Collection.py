@@ -84,7 +84,7 @@ class LiveImageWindow(QWidget):
         self.cmap = ListedColormap(rgb_colors)
 
         # Load IR power spectrum for normalization
-        self.power_spectra = np.loadtxt('C:\\Users\\kuno\\OneDrive - nd.edu\\Documents\\Soft_related\\_Python Scripts\\IR-PHI (widefield) 2022\\photron_cam_Oct\\IR_power_spectra.csv', delimiter=',', skiprows=1)
+        self.power_spectra = np.loadtxt(str(Path(__file__).resolve().parent.parent / "docs" / "IR_power_spectra.csv"), delimiter=',', skiprows=1)
 
     def initUI(self):
         # Create canvas for image
@@ -138,6 +138,8 @@ class LiveImageWindow(QWidget):
         self.timer.timeout.connect(self.update_image)  # Connect timeout to function
         self.timer.start()                             # Start timer
 
+        self.setWindowTitle('Spectra Collection')
+
     def update_image(self):
         self.image = self.camera.getLiveImage_Mod(bufferSize=(256, 256), Flip=True, y1=117, y2=193, x1=57, x2=133)
         self.canvas.ax.clear()                                       # Clear previous image
@@ -172,7 +174,7 @@ class LiveImageWindow(QWidget):
             self.messageLabel.setText("<font color='red'>Please enter values</font>") 
 
     def on_go_click(self):
-        self.timer.stop()                                   # Stop updating image
+        self.timer.stop()                                                # Stop updating image
         self.applyButton.setEnabled(False)
         self.goButton.setEnabled(False)
         self.worker = Worker(self.ir_wavenum_arr, self.ff3, self.camera, self.conexcc, self.mirror_go_to_position_wevelength_corection, self.sampleNameInput, self.power_spectra)
@@ -242,7 +244,7 @@ class LiveImageWindow(QWidget):
 class Worker(QThread):
     update_message = pyqtSignal(str)          # Signal to send messages to the GUI
     update_IR_image = pyqtSignal(np.ndarray)  # Signal to send images to the GUI
-    finished_signal = pyqtSignal()           # Signal to send when the thread is finished, this will unlock GUI buttons
+    finished_signal = pyqtSignal()            # Signal to send when the thread is finished, this will unlock GUI buttons
 
     def __init__(self, ir_wavenum_arr, ff3, camera, conexcc, mirror_go_to_position_wevelength_corection, sampleNameInput, power_spectra):
         super().__init__()
@@ -288,13 +290,16 @@ class Worker(QThread):
         # Format file name prefix with current time                                                                                                        
         f_name_prefix = f'[{cur_time.year}-{cur_time.month}-{cur_time.day}@{cur_time.hour:02d}-{cur_time.minute:02d}]'
         f_name_prefix_2 = f'[{self.ir_wavenum_arr[0]}-{self.ir_wavenum_arr[-1]}-{int((self.ir_wavenum_arr[-1] - self.ir_wavenum_arr[0]) / (len(self.ir_wavenum_arr) - 1))}]'
-        dir_name = f"C:\\Users\\kuno\\OneDrive - nd.edu\\Documents\\Measurements\\wIR-PHI_spectra\\{f_name_prefix}{f_name_prefix_2}_{self.sampleNameInput.text()}" # Define directory name
+
+        repo_path = str(Path(__file__).resolve().parent.parent.parent)
+        dir_name = f"{repo_path}\\Measurements\\wIR-PHI_spectra\\{f_name_prefix}_{self.sampleNameInput.text()}_{self.WLInput.text()}_cm⁻¹" # Define directory name
+
         if os.path.exists(dir_name) and os.listdir(dir_name):   # Check if folder already exists and is not empty
             dir_name = dir_name + "_1"                          # Change folder name if folder is not empty
         os.makedirs(dir_name, exist_ok=True)                    # Create directory
         np.save(f"{dir_name}\\{f_name_prefix}{f_name_prefix_2}_raw.npy", hypecube_raw)                       # Safe data
         np.save(f"{dir_name}\\{f_name_prefix}{f_name_prefix_2}.npy", hypecube)                               # Safe data        
-        np.save(f"{dir_name}\\{f_name_prefix}{f_name_prefix_2}_norm.npy", hypercube_norm)                               # Safe data
+        np.save(f"{dir_name}\\{f_name_prefix}{f_name_prefix_2}_norm.npy", hypercube_norm)                    # Safe data
         print ("data saved")
 
         self.finished_signal.emit() # Send signal to unlock GUI buttons
