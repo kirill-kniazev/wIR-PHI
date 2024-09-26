@@ -1,10 +1,11 @@
 import ctypes as ct
 import numpy as np
+from pathlib import Path
 
 class PhotronCameraDll():
     def __init__(self):
-        self.path_to_dll = "C:\\Users\\kuno\\OneDrive - nd.edu\\Documents\\Soft_related\\_Python Scripts\\IR-PHI (widefield) 2022\\photron_cam_Oct\\lib\\PDCLIB.dll" # path to PDCLIB dll file
-        self.lib = ct.CDLL(self.path_to_dll)
+
+        self.lib = ct.CDLL(str(Path(__file__).resolve().parent / "lib" / "PDCLIB.dll"))
         
         
     def pdcInit(self):

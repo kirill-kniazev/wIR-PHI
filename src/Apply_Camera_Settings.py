@@ -1,5 +1,5 @@
 import sys
-from photron_camera import PhotronCamera
+from CMOS_Functions import PhotronCamera
 import time
 import subprocess
 import tkinter as tk
