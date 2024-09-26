@@ -227,7 +227,8 @@ class LiveImageWindow(QWidget):
     def on_save_click(self):
         cur_time = dt.now()                                                                                                               # Get current time
         f_name_prefix = f'[{cur_time.year}-{cur_time.month}-{cur_time.day}@{cur_time.hour:02d}-{cur_time.minute:02d}]'                    # Format file name prefix with current time
-        dir_name = f"C:\\Users\\kuno\\OneDrive - nd.edu\\Documents\\Measurements\\wIR-PHI_maps\\{f_name_prefix}_{self.sampleNameInput.text()}_{self.WLInput.text()}_cm⁻¹" # Define directory name
+        repo_path = str(Path(__file__).resolve().parent.parent.parent)
+        dir_name = f"{repo_path}\\Measurements\\wIR-PHI_maps\\{f_name_prefix}_{self.sampleNameInput.text()}_{self.WLInput.text()}_cm⁻¹" # Define directory name
         if os.path.exists(dir_name) and os.listdir(dir_name):   # Check if folder already exists and is not empty
             dir_name = dir_name + "_1"                          # Change folder name if folder is not empty
         os.makedirs(dir_name, exist_ok=True)                    # Create directory
