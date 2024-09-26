@@ -1,11 +1,18 @@
 import sys
 import os
 import clr
+from pathlib import Path
 
-clr.AddReference('C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI_2021/laser_manipulator-test_June_2022/Newfocus/Newport.CONEXCC.CommandInterface.dll')
-from photron_camera import PhotronCamera
-import Firefly_LW #192.168.1.231, , separate py file
-from ConexCC import ConexCC
+from CMOS_Functions import PhotronCamera
+import Firefly_SW as Firefly_SW         # Shoert Wavelngth Firefly laser controll class. Laser IP - 192.168.1.229
+import Firefly_LW as Firefly_LW         # Long   Wavelngth Firefly laser controll class. Laser IP - 192.168.1.231
+
+# Import custom classes to controll Newfocus Conex-CC close loop controller used for mirror angle correction
+import clr
+clr.AddReference(str(Path(__file__).resolve().parent / "Newfocus" / "Newport.CONEXCC.CommandInterface.dll"))
+import CommandInterfaceConexCC
+from Newfocus.ConexCC import ConexCC
+
 from matplotlib.colors import ListedColormap
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -118,6 +125,8 @@ class LiveImageWindow(QWidget):
         self.timer.setInterval(int(1000 / 60))         # Set interval to 60 fps
         self.timer.timeout.connect(self.update_image)  # Connect timeout to function
         self.timer.start()                             # Start timer
+
+        self.setWindowTitle('Image Collection')
 
     def update_image(self):
         self.image = self.camera.getLiveImage_Mod(bufferSize=(256, 256), Flip=True, y1=117, y2=193, x1=57, x2=133)
