@@ -167,6 +167,8 @@ class LiveImageWindow(QWidget):
         self.timer.timeout.connect(self.update_image)  # Connect timeout to function
         self.timer.start()                             # Start timer
 
+        self.setWindowTitle('Image Scanning')
+
     def update_image(self):
         self.image = self.camera.getLiveImage_Mod(bufferSize=(256, 256), Flip=True, y1=122, y2=198, x1=52, x2=128)
         self.canvas.ax.clear()                                       # Clear previous image
