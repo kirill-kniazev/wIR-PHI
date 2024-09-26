@@ -47,6 +47,40 @@ Once the **Collect IR Image** button is clicked, the IR image will be displayed 
 - **Saving the Image**: When the **Save** button is clicked, a new folder named **Measurements** will be created outside of the repository. Within this folder, the captured images will be saved in `.txt` format, and the **Save** button will be disabled.
 - **Live Imaging**: The **Live Imaging** button allows you to view real-time imaging.
 
+5 spectra collection
+
+<div align="center">
+    <img src="Spectra_Collection_GUI.png" width="35%">
+</div>
+
+here you have to close image colection window and oprn spectra colection window.
+
+in this window you have to enter scanning waveelgth range and a vavelenght step. adb clic apply paramters. this will trigger the lase and moror motor to go to th initial positions.
+
+then enter sample name and clcj colecna ddave spectra, what will stat the hyperpectral image colectiona and the automatically will save it. for anaylysi of the hyperspectra images please see git kirill-kniaze Hyperspectral Image Analysus repo.
+
+after data is collected and save clicl live image to go back to real time visible light image.
+
 ## Software Compatibility
 
 This software has been tested with **Python 3.10**.
+
+
+new section - experiments
+
+here is introduction of the experimental function for the wir-phi: scanning widefield imaging.
+
+idea is simple: utilise the ideas of the classical scanning ir-phi and wirphi. where wide field images are collected at different regions of the sample and the stiched togater to retrive photothermal imformation of the extrimelly large areas of the samples.
+
+to ruth this gui use image scanning py or pyw.
+
+<div align="center">
+    <img src="Image_Scanning_GUI.png" width="35%">
+</div>
+
+
+below is the images of the full ckeek cell under different light ilumination charateristic to different cell part resonsance.
+
+<div align="center">
+    <img src="Cheek_Cell.png" width="35%">
+</div>
