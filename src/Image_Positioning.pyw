@@ -1,7 +1,9 @@
 import os
+from pathlib import Path
 
-# Path to the script you want to run
-script_path = "C:\\Users\\kuno\\OneDrive - nd.edu\\Documents\\Soft_related\\_Python Scripts\\IR-PHI (widefield) 2022\\photron_cam_Oct\\piezo_controll_only.py"
+# Path to the script to run
+script_dir = Path(__file__).resolve().parent
+script_path = script_dir / "Image_Positioning.py"
 
 # Command to run the script
 command = f"python \"{script_path}\""
