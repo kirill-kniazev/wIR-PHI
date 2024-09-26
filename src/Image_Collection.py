@@ -1,10 +1,7 @@
-#simple script to settle up camera parameters.
 import sys
 import os
 import clr
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI (widefield) 2022/photron_cam_Oct")
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI_2021")
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI_2021/laser_manipulator-test_June_2022/Newfocus")
+
 clr.AddReference('C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI_2021/laser_manipulator-test_June_2022/Newfocus/Newport.CONEXCC.CommandInterface.dll')
 from photron_camera import PhotronCamera
 import Firefly_LW #192.168.1.231, , separate py file
