@@ -1,12 +1,6 @@
 import sys
 import os
-import clr
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI (widefield) 2022/photron_cam_Oct")
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI_2021")
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI_2021/laser_manipulator-test_June_2022/Newfocus")
 
-#C:\Users\kuno\OneDrive - nd.edu\Documents\Soft_related\_Python Scripts\IR-PHI (widefield) 2022\wIR-PHI_base_on _laser_manipulator-test_June_2023\Madpiezo
-sys.path.append("C:/Users/kuno/OneDrive - nd.edu/Documents/Soft_related/_Python Scripts/IR-PHI (widefield) 2022/wIR-PHI_base_on _laser_manipulator-test_June_2023/Madpiezo")
 from datetime import datetime as dt
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel
 from PyQt5.QtGui import QImage, QPixmap
@@ -34,7 +28,7 @@ class LiveImageWindow(QWidget):
         self.zInput.setPlaceholderText(f"Enter z, µm ({self.coord_min_border}-{self.coord_max_border}):")
 
         # Create 'Move' button
-        self.moveButton = QPushButton('Move stage')
+        self.moveButton = QPushButton('Move the stage')
         self.moveButton.clicked.connect(self.on_move_click)
 
         # Create QLabel for displaying messages
@@ -48,6 +42,8 @@ class LiveImageWindow(QWidget):
         layout.addWidget(self.moveButton)
         layout.addWidget(self.messageLabel)            # Add message label to layout
         self.setLayout(layout)
+
+        self.setWindowTitle('Stage Control')
 
     def piezo_go_to_position(self, x, y, z):
         """
