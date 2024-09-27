@@ -1,7 +1,7 @@
 # wIR-PHI GUI
 
 <div align="center">
-    <img src="toc.png" width="80%">
+    <img src="TOC.png" width="80%">
 </div>
 
 This repository presents widefield Infrared Photothermal Heterodyne Imagig (wIR-PHI) Graphocal User Interface (GUI) for wIR-PHI system that operates using the Photron Nova S12 camera. This concept was initially introduced in 2019 by the [Ji-Xin Cheng](https://www.science.org/doi/10.1126/sciadv.aav7127#:~:text=Our%20widefield%20photothermal%20sensing%20microscope%20enabled%20chemical%20imaging%20at%20a) group and later finalized in 2023 by the [Masaru Kuno](https://www.spiedigitallibrary.org/conference-proceedings-of-spie/12392/1239203/Widefield-infrared-photothermal-imaging-and-spectroscopy/10.1117/12.2648082.short#_=_) and [Gregory Hartland](https://pubs.acs.org/doi/abs/10.1021/acsphotonics.3c00559) groups, achieving 20,000 frames per second (fps).
