@@ -72,11 +72,11 @@ More details can be foinf in [IR-PHI](https://github.com/kirill-kniazev/IR-PHI/)
 
 ## Experimental Feature
 
-This section introduces a new experimental feature for the wIR-PHI system: **scanning widefield imaging**.
+This section introduces a new experimental feature for the wIR-PHI system: **widefield Mosaic**.
 
 The concept is simple: it combines the ideas of classical scanning IR-PHI and wIR-PHI, where widefield images are collected from different regions of the sample and stitched together to retrieve photothermal information over extremely large areas.
 
-To run this feature, use the **Image Scanning** script (`Image_Scanning.py` or `Image_Scanning.pyw`).
+To run this feature, use the **wMosaic** script (`wMosaic.py` or `wMosaic.pyw`).
 
 <div align="center">
     <img src="Image_Scanning_GUI.png" width="35%">
@@ -87,3 +87,7 @@ Below is an example of full cheek cells imaged under different light illuminatio
 <div align="center">
     <img src="CheekCells.png" width="100%">
 </div>
+
+Image distortion present due to the Gaussian sample illumination. This is digitally corrected using "x" algorithm.
+
+Results are below  
