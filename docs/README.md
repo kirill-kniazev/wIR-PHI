@@ -11,7 +11,7 @@ This repository presents widefield Infrared Photothermal Heterodyne Imagig (wIR-
 To use this system, ensure that the latest version of the **PVF4 GUI** is installed.
 
 This software has been tested with **Python 3.10**.
-More details about specific requirements invitation can be found in [IR-PHI](https://github.com/kirill-kniazev/IR-PHI/) repo.
+More details about specific requirements instalations can be found in [IR-PHI](https://github.com/kirill-kniazev/IR-PHI/) repo.
 
 ## Configuration Instructions
 
