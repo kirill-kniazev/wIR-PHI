@@ -3,7 +3,7 @@ from pathlib import Path
 
 # Path to the script to run
 script_dir = Path(__file__).resolve().parent
-script_path = script_dir / "Image_Scanning.py"
+script_path = script_dir / "wMosaic.py"
 
 # Command to run the script
 command = f"python \"{script_path}\""
