@@ -10,6 +10,9 @@ This repository presents widefield Infrared Photothermal Heterodyne Imagig (wIR-
 
 To use this system, ensure that the latest version of the **PVF4 GUI** is installed.
 
+This software has been tested with **Python 3.10**.
+More details about specific requirements invitation can be found in [IR-PHI](https://github.com/kirill-kniazev/IR-PHI/) repo.
+
 ## Configuration Instructions
 
 ### Step 1: Configure the Camera
@@ -62,11 +65,6 @@ In this window, enter the scanning wavelength range and the wavelength step, the
 Next, enter the sample name and click **Collect and Save Spectra** to start the hyperspectral image collection. The data will be saved automatically. For analysis of hyperspectral images, please refer to the [GitHub repository](https://github.com/kirill-kniazev/Hyperspectral-Image-Analysis).
 
 After data collection and saving, click **Live Image** to return to real-time visible light imaging.
-
-## Software Compatibility
-
-This software has been tested with **Python 3.10**.
-More details can be foinf in [IR-PHI](https://github.com/kirill-kniazev/IR-PHI/) repo.
 
 ---
 
