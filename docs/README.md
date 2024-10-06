@@ -77,13 +77,15 @@ In the `extra` folder, you will find the `Collect_IR_Laser_Power_Spectra.py` scr
 
 This section introduces a new experimental feature for the wIR-PHI system: **widefield Mosaic**.
 
-The concept is simple: it combines the ideas of classical scanning IR-PHI and wIR-PHI, where widefield images are collected from different regions of the sample and stitched together to retrieve photothermal information over extremely large areas.
+The concept is straightforward: it combines the principles of classical scanning IR-PHI and wIR-PHI. Widefield images are collected from different regions of the sample and stitched together to retrieve photothermal information over extremely large areas.
 
-To run this feature, use the **wMosaic** script (`wMosaic.py` or `wMosaic.pyw`) located in the `extra` folder.
+To run this feature, use the **wMosaic** script (`wMosaic.py` or `wMosaic.pyw`) located in the `extra` folder. The resulting data is stored in the `data` subfolder.
 
 <div align="center">
     <img src="Image_Scanning_GUI.png" width="35%">
 </div>
+
+To open the final images, use the **wMosaicViewer** script (`wMosaicViewer.py` or `wMosaicViewer.pyw`) located in the `extra` folder.
 
 Below is an example of full cheek cells imaged under different light illumination characteristics, highlighting different cell part resonances:
 
@@ -91,6 +93,6 @@ Below is an example of full cheek cells imaged under different light illuminatio
     <img src="CheekCells.png" width="100%">
 </div>
 
-Image distortion present due to the Gaussian sample illumination. This is digitally corrected using "x" algorithm.
+It can be seen that widefield images are convoluted with Gaussian laser illumination, which distorts the images, especially the mosaic. To solve this issue, the `x` algorithm is applied within `wMosaicViewer` to compensate for Gaussian illumination.
 
-Results are below  
+Results are shown below.
