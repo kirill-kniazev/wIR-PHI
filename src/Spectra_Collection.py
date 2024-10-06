@@ -292,7 +292,7 @@ class Worker(QThread):
         f_name_prefix_2 = f'[{self.ir_wavenum_arr[0]}-{self.ir_wavenum_arr[-1]}-{int((self.ir_wavenum_arr[-1] - self.ir_wavenum_arr[0]) / (len(self.ir_wavenum_arr) - 1))}]'
 
         repo_path = str(Path(__file__).resolve().parent.parent.parent)
-        dir_name = f"{repo_path}\\Measurements\\wIR-PHI_spectra\\{f_name_prefix}_{self.sampleNameInput.text()}_{self.WLInput.text()}_cm⁻¹" # Define directory name
+        dir_name = f"{repo_path}\\{f_name_prefix}_{self.sampleNameInput.text()}_{self.WLInput.text()}_cm⁻¹" # Define directory name
 
         if os.path.exists(dir_name) and os.listdir(dir_name):   # Check if folder already exists and is not empty
             dir_name = dir_name + "_1"                          # Change folder name if folder is not empty
