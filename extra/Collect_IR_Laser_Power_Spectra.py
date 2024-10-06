@@ -1,86 +1,54 @@
 import numpy as np
 from numpy import *
-import time
 from time import sleep
 import os
 from datetime import datetime as dt
 import Firefly_SW #192.168.1.229, separate py file
 import Firefly_LW #192.168.1.231, , separate py file
 import pyqtgraph as pg
-# import ThorLabs_PM100_PowerMeter as PM
-# from PyQt5 import QtCore, QtGui
 import pyvisa
 from ThorlabsPM100 import ThorlabsPM100
+from pathlib import Path
+
+# Define the wavelength range and step size
+start_wavenumber = 1730  # Initial wavelength in nm
+end_wavenumber = 1750    # Final wavelength in nm
+step_size = 1            # Step size in cm-1
 
 #initializing PM100D power meter:
-rm = pyvisa.ResourceManager()
-inst = rm.open_resource('USB0::0x1313::0x8078::P0006834::INSTR', LF='\n', timeout=000000)#, LF='\n', timeout=50000)
-power_meter = ThorlabsPM100(inst=inst)
-power_meter.input.pdiode.filter.lpass.state = 1
-sleep(1)
-power = power_meter.read
-sleep(2)
+rm = pyvisa.ResourceManager()                   # Initialize the VISA resource manager
+inst = rm.open_resource('USB0::0x1313::0x8078::P0006834::INSTR', LF='\n', timeout=000000) # Open the resource for the Thorlabs power meter
+power_meter = ThorlabsPM100(inst=inst)          # Initialize the Thorlabs power meter
+power_meter.input.pdiode.filter.lpass.state = 1 # Enable the low-pass filter on the power meter
+sleep(1)                                        # Wait for the settings to take effect
+power = power_meter.read                        # Read the power measurement
+sleep(2)                                        # Wait for the reading to stabilize
 
-cur_time = dt.now()
-f_name_prefix = str(cur_time.day)+'-' + str(cur_time.month)+"-" + str(
-    cur_time.year)+"-" "%1.2d"%cur_time.hour+"%1.2d"%cur_time.minute+'_power_spectrum'
-dir_name = "C:\\Users\\kuno\\OneDrive - nd.edu\\Documents\\Measurements\\Power_spectrum\\" + f_name_prefix
+# Create the file path
+cur_time = dt.now() # Get the current time
+f_name_prefix = cur_time.strftime("%d-%m-%Y-%H%M_IR_power_spectrum")    # Create the filename prefix with the current date and time
+dir_name = Path(__file__).resolve().parent.parent / "docs"              # Get the parent directory of the script
+file_path = dir_name / f"{f_name_prefix}.csv"                           # Create the full file path
 
-if os.path.exists(dir_name):  # check if folder already exists
-    if os.listdir(dir_name):  # check if folder is empty
-        dir_name = dir_name + "_1"  # change folder name if folder is not empty
-        os.makedirs(dir_name)  # create another foder if folder is not empty
-else:
-    os.makedirs(dir_name)
+# Create the data placeholder
+num_steps = ((abs(end_wavenumber - start_wavenumber)) / step_size) + 1                  # Calculate the number of steps to scan
+wavenumber_pattern = np.arange(start_wavenumber, end_wavenumber + step_size, step_size) # Generate the wavenumber pattern
+scan_shape = np.shape(wavenumber_pattern)                                               # Determine the shape of the scan
+data_PM = np.zeros(scan_shape)                                                          # Create an empty array for power meter data
 
-lambda1, lambda2 = 1730, 1750  # edit here, wavelength range for spectrum in nm, format: initial wavelength, final wavelength
-lambda_stepsize = 1 # edit here, enter stepsize in nm, if >5nm steps, change sleep time in Firefly3 library
-len_lambda = ((abs(lambda2-lambda1))/lambda_stepsize) + 1  # this is the number of steps in which the scan length will be divided
-
-lambda_pattern = np.arange(lambda1, lambda2+lambda_stepsize, lambda_stepsize)
-
-print (lambda_pattern)
-print ("********************************************")
-
-scan_shape = np.shape(lambda_pattern)
-
-# create empty lists for y axes on the plot
-data_PM = np.zeros(scan_shape)
-# pw = pg.plot() # calling the plot function
-print (scan_shape)
-
-
-
-# for Firelfy laser initialization:
-#Firefly3 = Firefly3.Firefly3(sock=None) #short WL
-Firefly3 = Firefly_LW.Firefly_LW(sock=None) #long WL
-Firefly3.go_to_wavelength(lambda1)
-sleep(5)  # to allow Firefly to change wavelength
-
-#spectrum measurement
+# Initialize the Firefly laser and start the loop
+# Firefly3 = Firefly3.Firefly3(sock=None)   # For short wavelength range, use Firefly3.Firefly3
+Firefly3 = Firefly_LW.Firefly_LW(sock=None) # For long wavelength range, use Firefly_LW.Firefly_LW
+Firefly3.go_to_wavelength(start_wavenumber) # Set the laser to the starting wavenumber
+sleep(5)                                    # Allow time for the Firefly laser to change wavelength
+# Spectrum measurement loop
 for index in np.ndindex(scan_shape):
-    Firefly3.go_to_wavelength(lambda_pattern[index])
-    # sleep(1)
-    # meter.read_value()
-    # sleep(1)
-    # meter.measure.scalar.power()
-    sleep(2)
-    # current_data = meter.read
-    power = power_meter.read
-    print (f"Power = {power} W @ {lambda_pattern[index]} cm-1")
-    sleep(1.5)
-    data_PM[index] = power
-    
-    #   print (f"Power = {data_PM[index]} W @ {lambda_pattern[index]} cm-1")
-    # pw.plot(lambda_pattern, data_PM, clear=True, pen='r')
-    # pg.QtGui.QApplication.processEvents()
-    # sleep(1)
-    # sleep(0.5)  # integration time in seconds
-
-full_data = np.vstack((lambda_pattern, data_PM)).T	
-np.savetxt(dir_name + "\\" + "power_IR" +".csv", full_data, delimiter=",")
-
-
-# to reset laser wavelength
-Firefly3.go_to_wavelength(lambda1)
-sleep(10)
+    Firefly3.go_to_wavelength(wavenumber_pattern[index])    # Set the laser to the current wavenumber
+    sleep(2)                                                # Allow time for the laser to stabilize
+    power = power_meter.read                                # Read the power measurement
+    sleep(1.5)                                              # Allow time for the power meter to stabilize
+    data_PM[index] = power                                  # Store the power measurement in the data array
+full_data = np.vstack((wavenumber_pattern, data_PM)).T      # Combine the wavenumbers and power measurements into a single array
+np.savetxt(file_path, full_data, delimiter=",")             # Save the data to a CSV file
+Firefly3.go_to_wavelength(start_wavenumber)                 # Reset the laser to the starting wavenumber
+sleep(10)                                                   # Allow time for the laser to reset

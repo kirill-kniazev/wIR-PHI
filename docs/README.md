@@ -4,7 +4,7 @@
     <img src="TOC.png" width="80%">
 </div>
 
-This repository presents widefield Infrared Photothermal Heterodyne Imagig (wIR-PHI) Graphocal User Interface (GUI) for wIR-PHI system that operates using the Photron Nova S12 camera. This concept was initially introduced in 2019 by the [Ji-Xin Cheng](https://www.science.org/doi/10.1126/sciadv.aav7127#:~:text=Our%20widefield%20photothermal%20sensing%20microscope%20enabled%20chemical%20imaging%20at%20a) group and later finalized in 2023 by the [Masaru Kuno](https://www.spiedigitallibrary.org/conference-proceedings-of-spie/12392/1239203/Widefield-infrared-photothermal-imaging-and-spectroscopy/10.1117/12.2648082.short#_=_) and [Gregory Hartland](https://pubs.acs.org/doi/abs/10.1021/acsphotonics.3c00559) groups, achieving 20,000 frames per second (fps).
+This repository presents widefield Infrared Photothermal Heterodyne Imagig (wIR-PHI) Graphocal User Interface (GUI) for wIR-PHI system that operates using the Photron Nova S12 camera. This concept was initially introduced in 2019 by the [Ji-Xin Cheng](https://www.science.org/doi/10.1126/sciadv.aav7127#:~:text=Our%20widefield%20photothermal%20sensing%20microscope%20enabled%20chemical%20imaging%20at%20a) group and later finalized in 2023 by the [Masaru Kuno](https://www.spiedigitallibrary.org/conference-proceedings-of-spie/12392/1239203/Widefield-infrared-photothermal-imaging-and-spectroscopy/10.1117/12.2648082.short#_=_) and [Gregory Hartland](https://pubs.acs.org/doi/abs/10.1021/acsphotonics.3c00559) groups, achieving 20,000 frames per second (fps). More publications can be foud on the [web](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=ir-phi&btnG=).
 
 ## Requirements
 
@@ -67,6 +67,11 @@ Next, enter the sample name and click **Collect and Save Spectra** to start the 
 After data collection and saving, click **Live Image** to return to real-time visible light imaging.
 
 ---
+## Extra Scripts
+
+In the `extra` folder, you will find the `Collect_IR_Laser_Power_Spectra.py` script. This script controls the FireFly MSquared laser and the Thorlabs power meter to record the absolute emission power at each laser wavelength. The recorded data is saved in the `docs` folder as `date` + `_IR_power_spectra.csv`.
+
+---
 
 ## Experimental Feature
 
@@ -74,7 +79,7 @@ This section introduces a new experimental feature for the wIR-PHI system: **wid
 
 The concept is simple: it combines the ideas of classical scanning IR-PHI and wIR-PHI, where widefield images are collected from different regions of the sample and stitched together to retrieve photothermal information over extremely large areas.
 
-To run this feature, use the **wMosaic** script (`wMosaic.py` or `wMosaic.pyw`).
+To run this feature, use the **wMosaic** script (`wMosaic.py` or `wMosaic.pyw`) located in the `extra` folder.
 
 <div align="center">
     <img src="Image_Scanning_GUI.png" width="35%">
